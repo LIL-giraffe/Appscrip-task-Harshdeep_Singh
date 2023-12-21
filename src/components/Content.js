@@ -7,12 +7,13 @@ import Footer from "./Footer";
 const Content = () => {
   
   const [product, setProduct] = useState([]);
-//   const [show,setShow]=useState(true)
+  const [show,setShow]=useState(false)
   const fetchData = async () => {
     const data = await fetch("https://fakestoreapi.com/products");
     
     const json = await data.json();
     setProduct(json);
+    setShow(true)
   };
   useEffect(() => {
     fetchData();
@@ -30,13 +31,15 @@ const Content = () => {
       
       <div className="flex">
         <Sidebar/>
-        <div className="flex flex-wrap  justify-end  ">
-          {product.map(({  title, id, image, price,rating}) => {
-            return (
-              <ProductCard key={id} title={title} id={id} image={image} price={price} rating={rating.rate}/>
-            );
-          })}
-        </div>
+          { show ?(<div className="flex flex-wrap  justify-end  ">
+            {product.map(({  title, id, image, price,rating}) => {
+              return (
+                <ProductCard key={id} title={title} id={id} image={image} price={price} rating={rating.rate}/>
+              );
+            })}
+          </div>):(<div className="flex flex-wrap  justify-center  ">
+            <h1 className="text-3xl ">...Loading</h1>
+          </div>) }
       </div>
       <Footer/>
     </div>
